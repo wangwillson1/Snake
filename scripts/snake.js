@@ -6,15 +6,15 @@ let canvasBackground = "white";
 var gameCanvas = document.getElementById("gameCanvas");
 
 // Drawing context
-var gameContext = gameCanvas.getContext("2d");
+var ctx = gameCanvas.getContext("2d");
 
 // Drawing Canvas
 function clearCanvas() {
-    gameContext.fillStyle = canvasBackground;
-    gameContext.strokestyle = canvasBorder;
+    ctx.fillStyle = canvasBackground;
+    ctx.strokestyle = canvasBorder;
 
-    gameContext.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
-    gameContext.strokeRect(0, 0, gameCanvas.width, gameCanvas.height);
+    ctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
+    ctx.strokeRect(0, 0, gameCanvas.width, gameCanvas.height);
 }
 
  // Setting up snake
@@ -27,10 +27,10 @@ function clearCanvas() {
   ];
 
 function drawSnakePart(snakePart) {
-    gameContext.fillStyle = 'lightgreen';
-    gameContext.strokestyle = 'darkgreen';
-    gameContext.fillRect(snakePart.x, snakePart.y, 10, 10);
-    gameContext.strokeRect(snakePart.x, snakePart.y, 10, 10);
+    ctx.fillStyle = 'lightgreen';
+    ctx.strokestyle = 'darkgreen';
+    ctx.fillRect(snakePart.x, snakePart.y, 10, 10);
+    ctx.strokeRect(snakePart.x, snakePart.y, 10, 10);
 }
 
 function drawSnake() {
@@ -50,6 +50,7 @@ function moveSnakePart() {
 function moveSnake() {
     setTimeout(function() {
       clearCanvas();
+      drawFood();
       moveSnakePart();
       drawSnake();
       moveSnake();
@@ -75,10 +76,10 @@ function changeDirection(event) {
 
     // Conditions to check for movement
     if (keyPressed === left && !movingRight) {
-        vx = 10;
+        vx = -10;
         vy = 0;
     } else if (keyPressed === right && !movingLeft) {
-        vx = -10;
+        vx = 10;
         vy = 0;
     } else if (keyPressed === up && !movingDown) {
         vx = 0;
@@ -89,5 +90,25 @@ function changeDirection(event) {
     } 
 }
 
+function generateFood() {
+    foodX = Math.floor(Math.random() * ((gameCanvas.width - 10) / 10)) * 10;
+    foodY = Math.floor(Math.random() * ((gameCanvas.height - 10) / 10)) * 10;
 
+    Snake.forEach(function(snakePart) {
+        const foodOnSnake = snakePart.x === foodX && snakePart.y === foodY;
+
+        if (foodOnSnake) {
+            generateFood();
+        }
+    })
+}
+
+function drawFood() {
+    ctx.fillStyle = 'red';
+    ctx.strokestyle = 'darkred';
+    ctx.fillRect(foodX, foodY, 10, 10);
+    ctx.strokeRect(foodX, foodY, 10, 10);
+}
+
+generateFood();
 moveSnake();
