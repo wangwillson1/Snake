@@ -2,13 +2,19 @@
 <html>
   <head>
    <title>Snake</title>
-   <link rel="stylesheet" type="text/css" ref="./stylesheets/style.css">
+   <link rel="stylesheet" type="text/css" href="./stylesheets/style.css">
   </head>
   <body>
     <h1>Welcome to Snake!</h1>
     <div id="score">Score: 0</div>
 
-    <canvas id="gameCanvas" width="300" height="300"></canvas>
-    <script src="./scripts/snake.js"></script>
+    <div class="game">
+      <canvas id="gameCanvas" width="300" height="300"></canvas>
+      <div class="gameButtons">
+        <button id="startButton" onclick="moveSnake()">Start Game</button>
+        <button id="restartButton" onclick="restartGame()" disabled="true">Restart Game</button>
+      </div>
+      <script src="./scripts/snake.js"></script>
+    </div> 
   </body>
 </html>

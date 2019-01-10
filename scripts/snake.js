@@ -41,8 +41,8 @@ function drawSnake() {
 let score = 0;
 
 // Snake movement
-let vx = 0;
-let vy = 10; // Note that negative numbers will shift the snake up
+let vx = 10;
+let vy = 0; // Note that negative numbers will shift the snake up
 
 function moveSnakePart() {
     const head = {x: Snake[0].x + vx, y: Snake[0].y + vy};
@@ -59,7 +59,10 @@ function moveSnakePart() {
 }
 
 function moveSnake() {
+    document.getElementById("startButton").disabled = true;
+
     if (gameEnd()) {
+        document.getElementById("restartButton").disabled = false;
         return;
     } else {
         setTimeout(function() {
@@ -153,5 +156,27 @@ function gameEnd() {
     return hitLeftWall || hitRightWall || hitTopWall || hitBottomWall;
 }
 
+function restartGame() {
+    Snake = [
+        {x: 150, y: 150},
+        {x: 140, y: 150},
+        {x: 130, y: 150},
+        {x: 120, y: 150},
+        {x: 110, y: 150},
+    ];
+
+    clearCanvas();
+    drawSnake();
+    generateFood();
+    drawFood();
+
+    document.getElementById("startButton").disabled = false;
+    document.getElementById("restartButton").disabled = true;
+
+
+}
+
+clearCanvas();
+drawSnake();
 generateFood();
-moveSnake();
+drawFood();
