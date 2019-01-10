@@ -50,6 +50,8 @@ function moveSnakePart() {
 
     const ateFood = foodX === Snake[0].x && foodY == Snake[0].y;
     if (ateFood) {
+        Snake.unshift(head);
+        Snake.unshift(head);
         generateFood();
         score += 10;
         document.getElementById("score").innerHTML = "Score: " + score;
@@ -79,7 +81,6 @@ function moveSnake() {
 
 // Changing directions
 document.addEventListener("keydown", changeDirection);
-
 function changeDirection(event) {
     // Setting keycodes
     const left = 37;
@@ -156,6 +157,13 @@ function gameEnd() {
     return hitLeftWall || hitRightWall || hitTopWall || hitBottomWall;
 }
 
+// Starting and Restarting game
+function startGame() {
+    document.addEventListener("keydown", changeDirection);
+    moveSnake();
+}
+
+
 function restartGame() {
     Snake = [
         {x: 150, y: 150},
@@ -164,6 +172,8 @@ function restartGame() {
         {x: 120, y: 150},
         {x: 110, y: 150},
     ];
+    vx = 10;
+    vy = 0;
     score = 0;
     document.getElementById("score").innerHTML = "Score: " + score;
 
@@ -174,6 +184,7 @@ function restartGame() {
 
     document.getElementById("startButton").disabled = false;
     document.getElementById("restartButton").disabled = true;
+    document.removeEventListener("keydown", changeDirection);
 }
 
 clearCanvas();
