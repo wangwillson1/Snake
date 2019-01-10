@@ -63,10 +63,12 @@ function moveSnake() {
         return;
     } else {
         setTimeout(function() {
+            changingDirection = false;
             clearCanvas();
             drawFood();
             moveSnakePart();
             drawSnake();
+
             moveSnake();
         }, 100);
     }
@@ -81,6 +83,12 @@ function changeDirection(event) {
     const right = 39;
     const up = 38;
     const down = 40;
+
+    if (changingDirection) {
+        return;
+    }
+
+    changingDirection = true;
 
     // Setting movement changes
     const keyPressed = event.keyCode;
@@ -129,7 +137,7 @@ function drawFood() {
 
 // End game mechanism
 function gameEnd() {
-    for (let i=4; i < Snake.length; i++) {
+    for (let i = 4; i < Snake.length; i++) {
         const collided = Snake[i].x === Snake[0].x && Snake[i].y === Snake[0].y;
 
         if (collided) {
@@ -137,12 +145,12 @@ function gameEnd() {
         }
     }
 
-    const hitLeftWall = snake[0].x < 0;
-    const hitRightWall = snake[0].x > gameCanvas.width - 10;
-    const hitTopWall = snake[0].y < 0;
-    const hitBottomWall = snake[0].x > gameCanvas.height - 10;
+    const hitLeftWall = Snake[0].x < 0;
+    const hitRightWall = Snake[0].x > gameCanvas.width - 10;
+    const hitTopWall = Snake[0].y < 0;
+    const hitBottomWall = Snake[0].y > gameCanvas.height - 10;
 
-    return hitLeftWall || hitRightWall || hitToptWall || hitBottomWall;
+    return hitLeftWall || hitRightWall || hitTopWall || hitBottomWall;
 }
 
 generateFood();
