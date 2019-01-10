@@ -37,6 +37,9 @@ function drawSnake() {
     Snake.forEach(drawSnakePart);
 }
 
+// Score initialization
+let score = 0;
+
 // Snake movement
 let vx = 0;
 let vy = 10; // Note that negative numbers will shift the snake up
@@ -44,7 +47,15 @@ let vy = 10; // Note that negative numbers will shift the snake up
 function moveSnakePart() {
     const head = {x: Snake[0].x + vx, y: Snake[0].y + vy};
     Snake.unshift(head);
-    Snake.pop();
+
+    const ateFood = foodX === Snake[0].x && foodY == Snake[0].y;
+    if (ateFood) {
+        generateFood();
+        score += 10;
+        document.getElementById("score").innerHTML = "Score: " + score;
+    } else {
+        Snake.pop();
+    }
 }
 
 function moveSnake() {
@@ -90,6 +101,7 @@ function changeDirection(event) {
     } 
 }
 
+// Food generation
 function generateFood() {
     foodX = Math.floor(Math.random() * ((gameCanvas.width - 10) / 10)) * 10;
     foodY = Math.floor(Math.random() * ((gameCanvas.height - 10) / 10)) * 10;
@@ -109,6 +121,8 @@ function drawFood() {
     ctx.fillRect(foodX, foodY, 10, 10);
     ctx.strokeRect(foodX, foodY, 10, 10);
 }
+
+
 
 generateFood();
 moveSnake();
