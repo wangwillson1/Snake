@@ -41,13 +41,53 @@ function drawSnake() {
 let vx = 0;
 let vy = 10; // Note that negative numbers will shift the snake up
 
-function moveSnake() {
+function moveSnakePart() {
     const head = {x: Snake[0].x + vx, y: Snake[0].y + vy};
     Snake.unshift(head);
     Snake.pop();
 }
 
+function moveSnake() {
+    setTimeout(function() {
+      clearCanvas();
+      moveSnakePart();
+      drawSnake();
+      moveSnake();
+    }, 100);
+}
 
-clearCanvas();
+// Changing directions
+document.addEventListener("keydown", changeDirection);
+
+function changeDirection(event) {
+    // Setting keycodes
+    const left = 37;
+    const right = 39;
+    const up = 38;
+    const down = 40;
+
+    // Setting movement changes
+    const keyPressed = event.keyCode;
+    const movingUp = vy === -10;
+    const movingDown = vy === 10;
+    const movingRight = vx === 10;
+    const movingLeft = vx === -10;
+
+    // Conditions to check for movement
+    if (keyPressed === left && !movingRight) {
+        vx = 10;
+        vy = 0;
+    } else if (keyPressed === right && !movingLeft) {
+        vx = -10;
+        vy = 0;
+    } else if (keyPressed === up && !movingDown) {
+        vx = 0;
+        vy = -10;
+    } else if (keyPressed === down && !movingUp) {
+        vx = 0;
+        vy = 10;
+    } 
+}
+
+
 moveSnake();
-drawSnake();
