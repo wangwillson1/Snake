@@ -164,6 +164,8 @@ function restartGame() {
         {x: 120, y: 150},
         {x: 110, y: 150},
     ];
+    score = 0;
+    document.getElementById("score").innerHTML = "Score: " + score;
 
     clearCanvas();
     drawSnake();
@@ -172,8 +174,6 @@ function restartGame() {
 
     document.getElementById("startButton").disabled = false;
     document.getElementById("restartButton").disabled = true;
-
-
 }
 
 clearCanvas();
