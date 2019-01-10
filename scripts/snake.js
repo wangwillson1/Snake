@@ -48,10 +48,12 @@ function moveSnakePart() {
     const head = {x: Snake[0].x + vx, y: Snake[0].y + vy};
     Snake.unshift(head);
 
+    const tail = {x: Snake[Snake.length-1].x, y: Snake[Snake.length-1].y};
+
     const ateFood = foodX === Snake[0].x && foodY == Snake[0].y;
     if (ateFood) {
-        Snake.unshift(head);
-        Snake.unshift(head);
+        Snake.push(tail);
+        Snake.push(tail);
         generateFood();
         score += 10;
         document.getElementById("score").innerHTML = "Score: " + score;
